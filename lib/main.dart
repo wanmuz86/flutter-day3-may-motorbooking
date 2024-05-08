@@ -44,7 +44,19 @@ class HomePage extends StatelessWidget {
           TextField(decoration:  InputDecoration(hintText: "Enter sent date"), controller: sentDateEditingController,),
           TextField(decoration:  InputDecoration(hintText: "Enter motorcycle info"), controller: motorInfoEditingController,),
           ElevatedButton(onPressed: (){
-
+            createBooking(nameEditingController.text,
+                emailEditingController.text, addressEditingController.text,
+                pickupDateEditingController.text, sentDateEditingController.text,
+                // If after api call I only one to execute one line of instuction => (lambda expression)
+                // If I execute more than one line no => (normal function)
+                motorInfoEditingController.text).then((value) {
+                  var snackbar = SnackBar(content: Text("Successfully booked"));
+                  ScaffoldMessenger.of(context).showSnackBar(snackbar);
+            }).catchError((err){
+              var snackbar = SnackBar(content: Text("Something is wrong"));
+              ScaffoldMessenger.of(context).showSnackBar(snackbar);
+              print(err);
+            });
           }, child: Text("Book Now"))
         ],
       )
